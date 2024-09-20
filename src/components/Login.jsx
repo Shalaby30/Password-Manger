@@ -14,7 +14,7 @@ export default function Login() {
     try {
       const response = await account.createEmailPasswordSession(email, password);
       console.log("Login successful:", response);
-      
+      window.location.href = "/"; // Redirect to home page on successful login
     } catch (error) {
       setError(error.message);
       console.log("Login error:", error);
