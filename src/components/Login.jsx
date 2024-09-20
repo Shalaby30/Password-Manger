@@ -14,7 +14,7 @@ export default function Login() {
     try {
       const response = await account.createEmailPasswordSession(email, password);
       console.log("Login successful:", response);
-      // Here you can handle the logged-in state or display a success message
+      
     } catch (error) {
       setError(error.message);
       console.log("Login error:", error);
@@ -86,7 +86,7 @@ export default function Login() {
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             <div className="text-center">
               <a
-                href="/register"
+                href="/signup"
                 className="text-sm text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 Don't have an account? Register

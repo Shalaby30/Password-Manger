@@ -12,8 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { databases } from "../appwriteConfig";
+import { databases, account } from "../appwriteConfig"; // Import account for authentication check
 
 const DATABASE_ID = "66e70c03000b616720bf"; 
 const COLLECTION_ID = "66e70c1b000c4646dfd4"; 
@@ -27,6 +26,24 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [showPassword, setShowPassword] = useState({});
   const [generatedPassword, setGeneratedPassword] = useState("");
+
+  // Check if user is authenticated on component mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const user = await account.get(); // Fetch logged-in user details
+        if (!user) {
+          // If no user is found, redirect to login
+          window.location.href = "/login";
+        }
+      } catch (error) {
+        // In case of error (no user), redirect to login
+        window.location.href = "/login";
+      }
+    };
+
+    checkAuth(); // Call the function to check authentication
+  }, []);
 
   useEffect(() => {
     if (darkMode) {
@@ -218,48 +235,50 @@ export default function Home() {
             Saved Passwords
           </h2>
           
-            <div className="space-y-4">
-              {credentials.map((cred) => (
-                <div
-                  key={cred.$id}
-                  className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg transition-all duration-200 ease-in-out hover:shadow-md"
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-semibold dark:text-white">
-                        {cred[20]} 
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">
-                        UserName: {cred.userName}
+          <div className="space-y-4">
+            {credentials.map((cred) => (
+              <div
+                key={cred.$id}
+                className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg transition-all duration-200 ease-in-out hover:shadow-md"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-semibold dark:text-white">
+                      {cred[20]} 
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      UserName: {cred.userName}
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      Email: {cred.email}
+                    </p>
+                    <div className="flex items-center">
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mr-2">
+                        Password:{" "}
+                        {showPassword[cred.$id] ? cred.Password : "********"}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">
-                        Email: {cred.email}
-                      </p>
-                      <div className="flex items-center">
-                        <p className="text-sm text-gray-600 dark:text-gray-300 mr-2">
-                          Password:{" "}
-                          {showPassword[cred.$id] ? cred.Password : "********"}
-                        </p>
-                        <button
-                          onClick={() => togglePasswordVisibility(cred.$id)}
-                          className="ml-2"
-                        >
-                          {showPassword[cred.$id] ? (
-                            <EyeOffIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-                          ) : (
-                            <EyeIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
-                          )}
-                        </button>
-                      </div>
+                      <button
+                        onClick={() => togglePasswordVisibility(cred.$id)}
+                        className="ml-2"
+                      >
+                        {showPassword[cred.$id] ? (
+                          <EyeOffIcon className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                        ) : (
+                          <EyeIcon className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                        )}
+                      </button>
                     </div>
-                    <button onClick={() => deleteCredential(cred.$id)}>
-                      <TrashIcon className="w-5 h-5 text-red-500" />
-                    </button>
                   </div>
+                  <button
+                    onClick={() => deleteCredential(cred.$id)}
+                    className="text-red-500 dark:text-red-400"
+                  >
+                    <TrashIcon className="w-5 h-5" />
+                  </button>
                 </div>
-              ))}
-            </div>
-          
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

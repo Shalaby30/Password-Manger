@@ -110,7 +110,7 @@ export default function SignUp() {
 
             <div className="text-center mt-2">
               <a
-                href="/forgot-password"
+                href="/login"
                 className="text-sm text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 Already have an account? Log in
