@@ -2,6 +2,7 @@ import { EyeIcon, EyeOffIcon, LockIcon } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { account } from "../appwriteConfig";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -14,7 +15,9 @@ export default function Login() {
     try {
       const response = await account.createEmailPasswordSession(email, password);
       console.log("Login successful:", response);
-      window.location.href = "/"; // Redirect to home page on successful login
+      if (response) {
+        window.location.href = "/home";
+      }
     } catch (error) {
       setError(error.message);
       console.log("Login error:", error);
@@ -85,20 +88,20 @@ export default function Login() {
             </div>
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
             <div className="text-center">
-              <a
-                href="/signup"
+              <Link
+                to="/signup"
                 className="text-sm text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 Don't have an account? Register
-              </a>
+              </Link>
             </div>
             <div className="text-center mt-2">
-              <a
-                href="/forgot-password"
+              <Link
+                to="/forgot-password"
                 className="text-sm text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 Forgot your password?
-              </a>
+              </Link>
             </div>
           </form>
         </div>
