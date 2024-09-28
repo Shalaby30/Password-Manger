@@ -296,7 +296,7 @@ export default function Home() {
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://github.com/yourgithubusername"
+                href="https://github.com/shalaby30"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-colors duration-200"
@@ -305,7 +305,7 @@ export default function Home() {
                 <span className="sr-only">GitHub</span>
               </a>
               <a
-                href="https://www.linkedin.com/in/yourlinkedinusername"
+                href="https://www.linkedin.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 transition-colors duration-200"
